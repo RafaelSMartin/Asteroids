@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Asteroids</string>
+    <string name="start">Start</string>
+    <string name="config">Config</string>
+    <string name="about">About</string>
+    <string name="exit">Exit</string>
+    <string name="action_settings">Settings</string>
+</resources>
