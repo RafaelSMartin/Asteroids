@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Asteroides</string>
-    <string name="start">Jugar</string>
-    <string name="config">Configurar</string>
-    <string name="about">Acerca de</string>
-    <string name="exit">Salir</string>
+    <string name="app_name">Asteroids</string>
+    <string name="start">Start</string>
+    <string name="config">Config</string>
+    <string name="about">About</string>
+    <string name="exit">Exit</string>
     <string name="action_settings">Settings</string>
 </resources>
