@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:padding="60dp"
+    android:padding="150sp"
     tools:context=".MainActivity">
 
     <TextView
@@ -25,13 +25,13 @@
                 android:id="@+id/Button01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="36sp"
+                android:textSize="30sp"
                 android:text="@string/start"/>
             <Button
                 android:id="@+id/Button02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="36sp"
+                android:textSize="30sp"
                 android:text="@string/config"/>
         </TableRow>
         <TableRow>
@@ -39,13 +39,13 @@
                 android:id="@+id/Button03"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="36sp"
+                android:textSize="30sp"
                 android:text="@string/about"/>
             <Button
                 android:id="@+id/Button04"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="36sp"
+                android:textSize="30sp"
                 android:text="@string/exit"/>
         </TableRow>
     </TableLayout>
