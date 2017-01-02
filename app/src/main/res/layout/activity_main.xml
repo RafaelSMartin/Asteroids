@@ -28,7 +28,8 @@
     <Button
         style="@style/textoAsteroides.Botones"
         android:id="@+id/Button03"
-        android:text="@string/about"/>
+        android:text="@string/about"
+        android:onClick="lanzarAcercaDe" />
 
     <Button
         style="@style/textoAsteroides.Botones"

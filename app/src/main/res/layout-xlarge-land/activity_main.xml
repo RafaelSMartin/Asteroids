@@ -35,7 +35,7 @@
                 style="@style/textoAsteroides.Botones"
                 android:id="@+id/Button03"
                 android:textSize="30sp"
-                android:text="@string/about"/>
+                android:text="@string/about" />
             <Button
                 style="@style/textoAsteroides.Botones"
                 android:id="@+id/Button04"
