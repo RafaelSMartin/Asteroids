@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="30dp"
+    android:background="#000000"
     tools:context="com.rafaels.asteroides.MainActivity">
 
     <TextView
