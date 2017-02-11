@@ -14,7 +14,7 @@
         android:id="@+id/acercaDe"
         android:icon="@android:drawable/ic_menu_info_details"
         android:orderInCategory="10"
-        app:showAsAction="always|collapseActionView"/>
+        app:showAsAction="ifRoom|withText"/>
 
     <item
         android:title="Buscar"

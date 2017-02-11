@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu){
         //super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        return true; //Para que el menu este visible
     }
 
     @Override
