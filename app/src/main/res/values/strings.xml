@@ -6,4 +6,9 @@
     <string name="about">"Sobre..."</string>
     <string name="exit">Salir</string>
     <string name="action_settings">Settings</string>
+
+
+    <string name="snackbar_text_max_fragmentos">"Maximum of fragments 9"</string>
+    <string name="snackbar_text_error">"Error, must be a number"</string>
+    <string name="aceptar">Ok</string>
 </resources>

@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="150sp"
-    tools:context=".MainActivity">
+    android:padding="30dp"
+    android:background="#000000">
 
     <TextView
         style="@style/textoAsteroides"
-        android:textSize="50sp"
+        android:textSize="25sp"
         android:text="@string/app_name"/>
 
     <Button
         style="@style/textoAsteroides.Botones"
-        android:id="@+id/Button01"
-        android:textSize="30sp"
+        android:id="@+id/button_start"
         android:text="@string/start"/>
 
     <Button
         style="@style/textoAsteroides.Botones"
-        android:id="@+id/Button02"
-        android:textSize="30sp"
+        android:id="@+id/button_config"
         android:text="@string/config"/>
 
     <Button
         style="@style/textoAsteroides.Botones"
-        android:id="@+id/Button03"
-        android:textSize="30sp"
-        android:text="@string/about" />
+        android:id="@+id/button_about"
+        android:text="@string/about"
+        android:onClick="lanzarAcercaDe" />
 
     <Button
         style="@style/textoAsteroides.Botones"
-        android:id="@+id/Button04"
-        android:textSize="30sp"
+        android:id="@+id/button_exit"
         android:text="@string/exit"/>
 
 </LinearLayout>

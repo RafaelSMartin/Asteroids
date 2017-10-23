@@ -6,4 +6,11 @@
     <string name="about">Acerca de</string>
     <string name="exit">Salir</string>
     <string name="action_settings">configuracion</string>
+
+    <string name="about_description" translatable="false">Este programa ha sido desarrollado como ejemplo en el curso de Android para
+        demostrar como se pueden lanzar nuevas actividades desde la actividad principal.</string>
+
+    <string name="snackbar_text_max_fragmentos">"Máximo de fragmentos 9"</string>
+    <string name="snackbar_text_error">"Error, ha de ser un número"</string>
+    <string name="aceptar">Aceptar</string>
 </resources>

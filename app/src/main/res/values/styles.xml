@@ -2,14 +2,22 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme"
-        parent="Base.Theme.AppCompat.CompactMenu">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="JuegoStyle" parent="@style/Theme.AppCompat.Light">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+
+    <!--Estilo fragment_first Asteroides-->
     <style name="textoAsteroides"
         parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">match_parent</item>
