@@ -16,6 +16,19 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <!--Acerca de Style-->
+    <style name="AcercadeStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">#FFC107</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">#00FF00</item>
+        <!-- Used for the background -->
+        <item name="android:background">#000000</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:typeface">monospace</item>
+
+    </style>
+
 
     <!--Estilo fragment_first Asteroides-->
     <style name="textoAsteroides"

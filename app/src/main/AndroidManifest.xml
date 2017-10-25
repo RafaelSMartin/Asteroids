@@ -21,7 +21,7 @@
         <activity
             android:name=".activity.AcercaDe"
             android:label="@string/about"
-            android:theme="@android:style/Theme.Dialog"
+            android:theme="@style/AcercadeStyle"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
 
         <activity
