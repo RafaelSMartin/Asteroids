@@ -1,6 +1,8 @@
 package com.rafaels.asteroides.fragment;
 
 import android.app.Fragment;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rafaels.asteroides.activity.AcercaDe;
@@ -30,6 +33,8 @@ public class FragmentMain extends Fragment {
     private int page;
     private Button bAcercaDe, bSalir, bConfig, bPlay;
     public static AlmacenPuntuaciones almacen;
+    private TextView textView;
+    private Animation animation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,14 +52,24 @@ public class FragmentMain extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        textView = (TextView) view.findViewById(R.id.textView);
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.giro_con_zoom);
+        textView.startAnimation(animation);
+
         bAcercaDe = (Button) view.findViewById(R.id.button_about);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.giro_con_zoom);
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.parpadeo);
+        bAcercaDe.startAnimation(animation);
         bAcercaDe.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+//                bAcercaDe.startAnimation(animation);
                 launchActivity(AcercaDe.class);
             }
         });
 
         bSalir = (Button) view.findViewById(R.id.button_exit);
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_salir);
+        bSalir.startAnimation(animation);
         bSalir.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 launchActivity(Puntuaciones.class);
@@ -62,6 +77,8 @@ public class FragmentMain extends Fragment {
         });
 
         bConfig = (Button) view.findViewById(R.id.button_config);
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.desplazamiento_derecha);
+        bConfig.startAnimation(animation);
         bConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +87,8 @@ public class FragmentMain extends Fragment {
         });
 
         bPlay = (Button) view.findViewById(R.id.button_start);
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.aparecer);
+        bPlay.startAnimation(animation);
         bPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

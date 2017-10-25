@@ -82,7 +82,16 @@ public class VistaJuego extends View {
             drawableAsteroide = dAsteroide;
 
             setBackgroundColor(Color.BLACK);
-        } else {
+        } else if(pref.getString("graficos", "1").equals("3")){
+            drawableAsteroide =
+                    context.getResources().getDrawable(R.drawable.asteroide1);
+            ContextCompat.getDrawable(context, R.drawable.asteroide1);
+
+            drawableNave =
+                    context.getResources().getDrawable(R.drawable.estrella);
+            ContextCompat.getDrawable(context, R.drawable.estrella);
+        }
+        else {
             //Activo aceleracion grafica
             setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
