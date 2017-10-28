@@ -84,12 +84,12 @@ public class VistaJuego extends View {
             setBackgroundColor(Color.BLACK);
         } else if(pref.getString("graficos", "1").equals("3")){
             drawableAsteroide =
-                    context.getResources().getDrawable(R.drawable.asteroide1);
-            ContextCompat.getDrawable(context, R.drawable.asteroide1);
+                    context.getResources().getDrawable(R.drawable.ic_asteroide1_vector_drawable);
+            ContextCompat.getDrawable(context, R.drawable.ic_asteroide1_vector_drawable);
 
             drawableNave =
-                    context.getResources().getDrawable(R.drawable.estrella);
-            ContextCompat.getDrawable(context, R.drawable.estrella);
+                    context.getResources().getDrawable(R.drawable.ic_nave_vector_drawable);
+            ContextCompat.getDrawable(context, R.drawable.ic_nave_vector_drawable);
         }
         else {
             //Activo aceleracion grafica
