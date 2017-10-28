@@ -53,13 +53,13 @@ public class FragmentMain extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         textView = (TextView) view.findViewById(R.id.textView);
-        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.giro_con_zoom);
-        textView.startAnimation(animation);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.giro_con_zoom);
+//        textView.startAnimation(animation);
 
         bAcercaDe = (Button) view.findViewById(R.id.button_about);
 //        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.giro_con_zoom);
-        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.parpadeo);
-        bAcercaDe.startAnimation(animation);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.parpadeo);
+//        bAcercaDe.startAnimation(animation);
         bAcercaDe.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 //                bAcercaDe.startAnimation(animation);
@@ -68,17 +68,17 @@ public class FragmentMain extends Fragment {
         });
 
         bSalir = (Button) view.findViewById(R.id.button_exit);
-        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_salir);
-        bSalir.startAnimation(animation);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_salir);
+//        bSalir.startAnimation(animation);
         bSalir.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                launchActivity(Puntuaciones.class);
+                getActivity().finish();
             }
         });
 
         bConfig = (Button) view.findViewById(R.id.button_config);
-        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.desplazamiento_derecha);
-        bConfig.startAnimation(animation);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.desplazamiento_derecha);
+//        bConfig.startAnimation(animation);
         bConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,12 +87,11 @@ public class FragmentMain extends Fragment {
         });
 
         bPlay = (Button) view.findViewById(R.id.button_start);
-        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.aparecer);
-        bPlay.startAnimation(animation);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.aparecer);
+//        bPlay.startAnimation(animation);
         bPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                mostrarPreferencias();
                 launchActivity(Juego.class);
             }
         });
