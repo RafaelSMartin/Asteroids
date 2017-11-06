@@ -1,4 +1,4 @@
-package com.rafaels.asteroides;
+package com.rafaels.asteroides.graphics;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -10,36 +10,42 @@ import android.view.View;
 
 public class Grafico {
 
-    private Drawable drawable;  //Imagen que dibujaremos
-    private int cenX, cenY;     //Posicion del centro del grafico
-    private int ancho, alto;    //Dimensiones de la imagen
-    private double incX, incY;  //Velocidad desplazamiento
+    private Drawable drawable;          //Imagen que dibujaremos
+    private int cenX, cenY;             //Posicion del centro del grafico
+    private int ancho, alto;            //Dimensiones de la imagen
+    private double incX, incY;          //Velocidad desplazamiento
     private double angulo, rotacion;    //Angulo y velocidad rotacion
     private int radioColision;          //Para determinar colisión
     private int xAnterior, yAnterior;   //Posicion anterior
-    private int radioInval;     //Radio usado en invalidate()
-    private View view;          //Usada en View.invalidate()
+    private int radioInval;             //Radio usado en invalidate() para borrar
+    private View view;                  //Usada en View.invalidate()
 
     public Grafico(View view, Drawable drawable){
+        //Me guardo las variables pasadas en las de la clase
         this.view = view;
         this.drawable = drawable;
+        //El ancho y alto lo puedo coger del propio drawable
         ancho = drawable.getIntrinsicWidth();
         alto = drawable.getIntrinsicHeight();
+
         radioColision = (alto+ancho)/4;
+
         radioInval = (int) Math.hypot(ancho/2, alto/2);
     }
 
     public void dibujaGrafico(Canvas canvas){
         int x = cenX - ancho/2;
         int y = cenY - alto/2;
-        //Situa los limites donde ira el drawable
+        //Donde quiero dibujar el drawable
         drawable.setBounds(x, y, x+ancho, y+alto);
+        //Guardo la matriz de informacion de todas estas operaciones y sin rotar
         canvas.save();
-        //Aplica transformacion de rotacion
+        //Aplica transformacion de rotacion al canvas, para rotar el drawable XD
         canvas.rotate((float)angulo, cenX, cenY);
-        //Dibuja el drawable en el canvas
+        //Dibuja el drawable en el canvas ya rotado
         drawable.draw(canvas);
         //Recupera la matriz de transformacion introducida para q no vuelva a operar
+        //asi el drawable se queda rotado
         canvas.restore();
         //Redibujamos la vista recordando la rotacion
         view.invalidate(cenX-radioInval, cenY-radioInval,

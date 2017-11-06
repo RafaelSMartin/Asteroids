@@ -24,6 +24,11 @@
         android:inputType="number"
         android:defaultValue="3"/>
 
+    <CheckBoxPreference
+        android:key="sensores"
+        android:title="Activar sensores"
+        android:summary="Usar sensores para mover la nave"/>
+
     <PreferenceCategory
         android:title="Modo multijugador">
 

@@ -1,6 +1,7 @@
 package com.rafaels.asteroides.fragment;
 
 import android.app.Fragment;
+import android.media.MediaPlayer;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -36,12 +37,20 @@ public class FragmentMain extends Fragment {
     private TextView textView;
     private Animation animation;
 
+//    MediaPlayer mp;
+
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         almacen= new AlmacenPuntuacionesArray();
 //        launchActivity(Puntuaciones.class);
+
+//        mp = MediaPlayer.create(getActivity(), R.raw.audio);
+//        mp.start();
 
     }
 
@@ -73,6 +82,7 @@ public class FragmentMain extends Fragment {
         bSalir.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 getActivity().finish();
+//                mostrarPreferencias();
             }
         });
 
@@ -113,7 +123,44 @@ public class FragmentMain extends Fragment {
                 +", multijugador: " + pref.getBoolean("multijugador",true)
                 +", jugadores: " + pref.getString("jugadores","?")
                 +", conexion: " +pref.getString("conexion","?");
-        Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+        String sensor = "sensores" + pref.getBoolean("sensores", true);
+        Toast.makeText(getActivity(), sensor, Toast.LENGTH_SHORT).show();
+    }
+
+
+    /**
+     *
+     * CICLO DE VIDA
+     *
+     * */
+
+    @Override
+    public void onStart(){
+        super.onStart();
+//        mp.start();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+//        if(mp != null)
+//            mp.start();
+    }
+
+    @Override
+    public void onPause(){
+//        if(mp !=null)
+//            mp.pause();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy(){
+//        if (mp != null){
+//            mp.release();
+//            mp = null;
+//        }
+        super.onDestroy();
     }
 
 
