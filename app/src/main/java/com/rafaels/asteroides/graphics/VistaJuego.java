@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.PathShape;
@@ -16,6 +17,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -58,8 +60,9 @@ public class VistaJuego extends View implements SensorEventListener {
     private int tiempoMisil;
 //    private Vector<Grafico> misiles;
 //    private Vector<Integer> tiempoMisiles;
-//    private int numMisiles = 10;
-//    Iterator vecInterator;
+    private int numMisiles = 10;
+    private Vector<Misil> misiles;
+    Iterator vecInterator;
 
     ////// THREAD Y TIEMPO //////
     //Thread encargado de procesar el juego
@@ -79,20 +82,22 @@ public class VistaJuego extends View implements SensorEventListener {
     SensorManager sm;
     private boolean isValorInicial;
     private boolean sensorActivo = false;
+    List<Sensor> listaSensores;
 
     ////// MULTIMEDIA //////
     SoundPool soundPool;
     int idDisparo, idExplosion;
 
+    private Drawable drawableNave, drawableAsteroide, drawableMisil;
+    private AnimationDrawable animacionMisil;
+
+
     public VistaJuego(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        Drawable drawableNave, drawableAsteroide, drawableMisil;
 
         soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         idDisparo = soundPool.load(context, R.raw.disparo, 0);
         idExplosion = soundPool.load(context, R.raw.explosion, 0);
-
 
         SharedPreferences pref = PreferenceManager.
                 getDefaultSharedPreferences(getContext());
@@ -147,30 +152,19 @@ public class VistaJuego extends View implements SensorEventListener {
             //Activo aceleracion grafica
             setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-            drawableAsteroide =
-                    context.getResources().getDrawable(R.drawable.asteroide1);
-            ContextCompat.getDrawable(context, R.drawable.asteroide1);
+            drawableAsteroide = ContextCompat.getDrawable(context, R.drawable.asteroide1);
 
-            drawableNave =
-                    context.getResources().getDrawable(R.drawable.nave);
-            ContextCompat.getDrawable(context, R.drawable.nave);
-
-            drawableMisil =
-                    context.getResources().getDrawable(R.drawable.misil1);
-            ContextCompat.getDrawable(context, R.drawable.misil1);
+            drawableNave = ContextCompat.getDrawable(context, R.drawable.nave);
+            animacionMisil = (AnimationDrawable) ContextCompat.getDrawable(context, R.drawable.amin_misil);
 
         } else {
-            drawableAsteroide =
-                    context.getResources().getDrawable(R.drawable.ic_asteroide1_vector_drawable);
-            ContextCompat.getDrawable(context, R.drawable.ic_asteroide1_vector_drawable);
+            //Activo aceleracion grafica
+            setLayerType(View.LAYER_TYPE_HARDWARE, null);
+            drawableAsteroide = ContextCompat.getDrawable(context, R.drawable.ic_asteroide1_vector_drawable);
 
-            drawableNave =
-                    context.getResources().getDrawable(R.drawable.ic_nave_vector_drawable);
-            ContextCompat.getDrawable(context, R.drawable.ic_nave_vector_drawable);
+            drawableNave = ContextCompat.getDrawable(context, R.drawable.ic_nave_vector_drawable);
 
-            drawableMisil =
-                    context.getResources().getDrawable(R.drawable.misil1);
-            ContextCompat.getDrawable(context, R.drawable.misil1);
+            animacionMisil = (AnimationDrawable) ContextCompat.getDrawable(context, R.drawable.amin_misil);
 
             setBackgroundColor(Color.BLACK);
         }
@@ -178,9 +172,11 @@ public class VistaJuego extends View implements SensorEventListener {
 
         // Indicamos qué objeto recogerá la llamada callback
         sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        listaSensores = sm.getSensorList(Sensor.TYPE_ALL);
 
         if (pref.getBoolean("sensores", true)) {
             activarSensorOrientacion();
+            activarSensorAcelerometro();
         } else {
             desactivarSensorOrientacion();
         }
@@ -198,10 +194,34 @@ public class VistaJuego extends View implements SensorEventListener {
 
         nave = new Grafico(this, drawableNave);
 
-        misil = new Grafico(this, drawableMisil);
-//        misiles = new Vector<Grafico>();
+        if(drawableMisil != null) {
+            misil = new Grafico (this, drawableMisil);
+        }else {
+            misil = new Grafico(this, animacionMisil);
+            //Lanzo el callback que necesita la animacion
+            animacionMisil.setCallback(new Drawable.Callback() {
+                @Override
+                public void unscheduleDrawable(Drawable who, Runnable what) {
+                    misil.getView().removeCallbacks(what);
+                }
+
+                @Override
+                public void scheduleDrawable(Drawable who, Runnable what, long when) {
+                    misil.getView().postDelayed(what, when - SystemClock.uptimeMillis());
+                }
+
+                @Override
+                public void invalidateDrawable(Drawable who) {
+                    misil.getView().postInvalidate();
+                }
+            });
+        }
+
+
+
+//        misiles = new Vector<Misil>();
 //        for(int i = 0; i <numMisiles; i++){
-//            Grafico misil = new Grafico(this, drawableMisil);
+//            Misil misil = new Misil(this, drawableMisil);
 //            misiles.add(misil);
 //        }
 //        vecInterator = misiles.iterator();
@@ -241,8 +261,10 @@ public class VistaJuego extends View implements SensorEventListener {
             }
         }
 //        synchronized (misiles){
-//            for(Grafico misil : misiles){
-//                misil.dibujaGrafico(canvas);
+//            for(Misil misil : misiles){
+//                if (misil.isMisilActivo()) {
+//                  misil.dibujaGrafico(canvas);
+//                  }
 //            }
 //        }
         if (misilActivo) {
@@ -275,14 +297,14 @@ public class VistaJuego extends View implements SensorEventListener {
         for (Grafico asteroide : asteroides) {
             asteroide.incrementaPos(retardo);
         }
-//        for (Grafico misil : misiles){
+//        for (Misil misil : misiles){
 //            misil.incrementaPos(retardo);
 //            misil.setTiempoMisil(misil.getTiempoMisil() - (int) retardo);
 //            if (misil.getTiempoMisil() < 0) {
 //                misil.setMisilActivo(false);
 //            } else {
 //                for (int i = 0; i < asteroides.size(); i++) {
-//                    if (misil.verificarColision(asteroides.get(i))) {
+//                    if (misil.verificaColision(asteroides.get(i))) {
 //                        destruyeAsteroide(i, misil);
 //                        break;
 //                    }
@@ -305,17 +327,24 @@ public class VistaJuego extends View implements SensorEventListener {
         }
     }
 
+//    private void destruyeAsteroide(int i, Misil misil) {
     private void destruyeAsteroide(int i) {
         synchronized (asteroides) {
             asteroides.remove(i);
             misilActivo = false;
+            //Detengo la animacion del misil
+            if(animacionMisil!=null)
+                animacionMisil.stop();
         }
         this.postInvalidate();
-
-        soundPool.play(idExplosion, 1,1,1,0,1);
+        // Desactivamos el misil para que el método onDraw deje de dibujarlo
+//        misil.setMisilActivo(false);
+        if(soundPool !=null)
+            soundPool.play(idExplosion, 1,1,0,0,1);
     }
 
     private void activaMisil() {
+
         misil.setCenX(nave.getCenX());
         misil.setCenY(nave.getCenY());
         misil.setAngulo(nave.getAngulo());
@@ -323,11 +352,24 @@ public class VistaJuego extends View implements SensorEventListener {
                 PASO_VELOCIDAD_MISIL);
         misil.setIncY(Math.sin(Math.toRadians(misil.getAngulo())) *
                 PASO_VELOCIDAD_MISIL);
+//        misil.setIncX(Math.cos(Math.toRadians(misil.getAngulo()))
+//                * Misil.PASO_VELOCIDAD_MISIL);
+//        misil.setIncY(Math.sin(Math.toRadians(misil.getAngulo()))
+//                * Misil.PASO_VELOCIDAD_MISIL);
         tiempoMisil = (int) Math.min(this.getWidth() / Math.abs(misil.
                 getIncX()), this.getHeight() / Math.abs(misil.getIncY())) - 2;
+//        misil.setTiempoMisil((int) Math.min(
+//                this.getWidth() / Math.abs(misil.getIncX()), this.getHeight()
+//                        / Math.abs(misil.getIncY()))
+//                - Misil.TIEMPO_VIDA);
+        //Lanzo la animacion
+        if(animacionMisil!=null)
+            animacionMisil.start();
+
         misilActivo = true;
 
-        soundPool.play(idDisparo, 1,1,1,0,1);
+        if(soundPool !=null)
+            soundPool.play(idDisparo, 1,1,0,0,1);
 
         // centramos el misil atendiendo a la posición, altura y anchura de la
         // nave
@@ -429,6 +471,15 @@ public class VistaJuego extends View implements SensorEventListener {
                 aceleracionNave = 0;
                 if (disparo) {
                     activaMisil();
+                    // Disparo de varios misiles en pantalla
+//                    while (vecInterator.hasNext()) {
+//                        Misil misil = (Misil) vecInterator.next();
+//                        if (!misil.isMisilActivo()) {
+//                            activaMisil(misil);
+//                            break;
+//                        }
+//
+//                    }
                 }
                 break;
         }
@@ -445,12 +496,31 @@ public class VistaJuego extends View implements SensorEventListener {
     // Método implementado de la interfaz SensorEventListener
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        float valor = sensorEvent.values[1];
-        if (!hayValorInicial) {
-            valorInicial = valor;
-            hayValorInicial = true;
+        switch (sensorEvent.sensor.getType()){
+            case Sensor.TYPE_ORIENTATION:
+                float valorOrientacion = sensorEvent.values[1];
+                if (!hayValorInicial) {
+                    valorInicial = valorOrientacion;
+                    hayValorInicial = true;
+                }
+                giroNave = (int) (valorOrientacion - valorInicial) / 3;
+                break;
+
+//            case Sensor.TYPE_ACCELEROMETER:
+//                float valorAcelerometroY = sensorEvent.values[0];
+//                float valorAcelerometroX = sensorEvent.values[1];
+//                float valorAcelerometroZ = sensorEvent.values[2];
+//                if (!hayValorInicial) {
+//                    valorInicial = valorAcelerometro;
+//                    hayValorInicial = true;
+//                }
+//                giroNave = (int) (valorAcelerometro - valorInicial) / 3;
+//                break;
+
+            default:
+                break;
         }
-        giroNave = (int) (valor - valorInicial) / 3;
+
     }
 
     @Override
@@ -460,7 +530,7 @@ public class VistaJuego extends View implements SensorEventListener {
 
     // Registro del sensor
     public boolean activarSensorOrientacion() {
-        List<Sensor> listaSensores = sm.getSensorList(Sensor.TYPE_ORIENTATION);
+        listaSensores = sm.getSensorList(Sensor.TYPE_ORIENTATION);
         if (!listaSensores.isEmpty()) {
             Sensor sensorOrientacion = listaSensores.get(0);
             sm.registerListener(this, sensorOrientacion, sm.SENSOR_DELAY_GAME);
@@ -468,6 +538,16 @@ public class VistaJuego extends View implements SensorEventListener {
         } else
             return sensorActivo;
 
+    }
+    public boolean activarSensorAcelerometro(){
+        listaSensores = sm.getSensorList(Sensor.TYPE_ACCELEROMETER);
+        if (!listaSensores.isEmpty()) {
+            Sensor acelerometerSensor = listaSensores.get(0);
+            sm.registerListener(this, acelerometerSensor,
+                    SensorManager.SENSOR_DELAY_UI);
+            return sensorActivo = true;
+        }else
+            return sensorActivo;
     }
 
     // Desactivar sensor
@@ -478,6 +558,7 @@ public class VistaJuego extends View implements SensorEventListener {
         }
         return sensorActivo;
     }
+
 
 
     /**

@@ -1,6 +1,8 @@
 package com.rafaels.asteroides.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.rafaels.asteroides.R;
@@ -13,12 +15,14 @@ import com.rafaels.asteroides.graphics.VistaJuego;
 public class Juego extends AppCompatActivity {
 
     private VistaJuego vistaJuego;
+    private SharedPreferences pref;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.juego);
 
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
         vistaJuego = (VistaJuego) findViewById(R.id.VistaJuego);
     }
 
@@ -30,14 +34,23 @@ public class Juego extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        vistaJuego.activarSensorOrientacion();
+
+        if((pref.getBoolean("sensores", true))){
+            vistaJuego.activarSensorOrientacion();
+            vistaJuego.activarSensorAcelerometro();
+        }
+
         vistaJuego.getThread().reanudar();
     }
 
     @Override
     protected void onPause(){
         vistaJuego.getThread().pausar();
-        vistaJuego.desactivarSensorOrientacion();
+
+        if((pref.getBoolean("sensores", false))){
+            vistaJuego.desactivarSensorOrientacion();
+        }
+
         super.onPause();
     }
 

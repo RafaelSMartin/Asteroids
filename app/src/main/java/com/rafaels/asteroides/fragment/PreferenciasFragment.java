@@ -3,6 +3,7 @@ package com.rafaels.asteroides.fragment;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -27,6 +28,7 @@ public class PreferenciasFragment extends PreferenceFragment {
     private Snackbar snackBar;
     private int gravity, xOffset, yOffset;
     private EditTextPreference fragmentos;
+    private CheckBoxPreference sensores;
 
 
     @Override

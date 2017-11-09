@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.rafaels.asteroides.activity.AcercaDe;
 import com.rafaels.asteroides.activity.Juego;
+import com.rafaels.asteroides.activity.MainActivity;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesArray;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuaciones;
 import com.rafaels.asteroides.activity.PreferenciasActivity;
@@ -37,11 +38,6 @@ public class FragmentMain extends Fragment {
     private TextView textView;
     private Animation animation;
 
-//    MediaPlayer mp;
-
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +45,9 @@ public class FragmentMain extends Fragment {
         almacen= new AlmacenPuntuacionesArray();
 //        launchActivity(Puntuaciones.class);
 
-//        mp = MediaPlayer.create(getActivity(), R.raw.audio);
-//        mp.start();
+
+
+
 
     }
 
@@ -137,29 +134,21 @@ public class FragmentMain extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
-//        mp.start();
+
     }
 
     @Override
     public void onResume(){
         super.onResume();
-//        if(mp != null)
-//            mp.start();
     }
 
     @Override
     public void onPause(){
-//        if(mp !=null)
-//            mp.pause();
         super.onPause();
     }
 
     @Override
     public void onDestroy(){
-//        if (mp != null){
-//            mp.release();
-//            mp = null;
-//        }
         super.onDestroy();
     }
 

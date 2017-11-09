@@ -1,8 +1,10 @@
 package com.rafaels.asteroides.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,8 +15,10 @@ import com.rafaels.asteroides.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    MediaPlayer mp;
+    public static MediaPlayer mp;
     int pos;
+    private SharedPreferences pref;
+    private String prefMusica;
 
     @Override
     protected void onSaveInstanceState(Bundle estadoGuardado){
@@ -40,21 +44,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        showToast("onCreate");
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        prefMusica = "" + pref.getBoolean("musica", true);
+        mp = MediaPlayer.create(this, R.raw.juego);
+
+//        showToast("onCreate");
 
         //Ocultar toolbar
 //        getSupportActionBar().hide();
 
-        mp = MediaPlayer.create(this, R.raw.juego);
-        mp.start();
+        if(prefMusica.equals("true")){
+            mp.start();
+        } else{
+            if (mp != null){
+                mp.release();
+                mp = null;
+            }
+        }
+
 
         getFragmentManager()
                 .beginTransaction()
                 .replace(android.R.id.content, new FragmentMain())
                 .commit();
-
-
-
     }
 
     @Override
@@ -97,15 +109,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 //        showToast("onStart");
-        mp.start();
+        if(mp != null)
+            mp.start();
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-//        showToast("onResume");
-        if(mp != null)
-            mp.start();
+        showToast("onResume");
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        prefMusica = "" + pref.getBoolean("musica", true);
+
+        if(prefMusica.equals("true")){
+            if(mp != null){
+//                showToast("1-->"+prefMusica);
+                mp.start();
+            } else{
+//                showToast("2-->"+prefMusica);
+                mp = MediaPlayer.create(this, R.raw.juego);
+                mp.start();
+            }
+        }
+        if(prefMusica.equals("false")){
+            if (mp != null){
+//                showToast("3-->"+prefMusica);
+                mp.release();
+                mp = null;
+            }
+        }
     }
 
     @Override
