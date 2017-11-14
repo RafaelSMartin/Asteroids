@@ -539,6 +539,7 @@ public class VistaJuego extends View implements SensorEventListener {
             return sensorActivo;
 
     }
+
     public boolean activarSensorAcelerometro(){
         listaSensores = sm.getSensorList(Sensor.TYPE_ACCELEROMETER);
         if (!listaSensores.isEmpty()) {
@@ -574,6 +575,7 @@ public class VistaJuego extends View implements SensorEventListener {
         }
 
         public synchronized void reanudar() {
+            ultimoProceso = System.currentTimeMillis();
             pausa = false;
             notify();
         }
