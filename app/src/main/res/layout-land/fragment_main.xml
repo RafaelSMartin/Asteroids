@@ -37,7 +37,7 @@
             <Button
                 style="@style/textoAsteroides.Botones"
                 android:id="@+id/button_exit"
-                android:text="@string/exit"/>
+                android:text="@string/puntuaciones"/>
         </TableRow>
     </TableLayout>
 

@@ -6,6 +6,7 @@
     <string name="about">Acerca de</string>
     <string name="exit">Salir</string>
     <string name="action_settings">configuracion</string>
+    <string name="puntuaciones">Puntuaciones</string>
 
     <string name="about_description" translatable="false">Este programa ha sido desarrollado como ejemplo en el curso de Android para
         demostrar como se pueden lanzar nuevas actividades desde la actividad principal.</string>

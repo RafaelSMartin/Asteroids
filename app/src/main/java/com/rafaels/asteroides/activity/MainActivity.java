@@ -8,9 +8,14 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rafaels.asteroides.fragment.FragmentMain;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuaciones;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesArray;
 import com.rafaels.asteroides.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +24,14 @@ public class MainActivity extends AppCompatActivity {
     int pos;
     private SharedPreferences pref;
     private String prefMusica;
+
+    // Store instance variables
+    private String title;
+    private int page;
+    private Button bAcercaDe, bSalir, bConfig, bPlay;
+    public static AlmacenPuntuaciones almacen;
+    private TextView textView;
+    private Animation animation;
 
     @Override
     protected void onSaveInstanceState(Bundle estadoGuardado){
@@ -42,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.fragment_main);
+
+        almacen= new AlmacenPuntuacionesArray();
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         prefMusica = "" + pref.getBoolean("musica", true);
@@ -62,11 +77,50 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        textView = (TextView) findViewById(R.id.textView);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.giro_con_zoom);
+//        textView.startAnimation(animation);
 
-        getFragmentManager()
-                .beginTransaction()
-                .replace(android.R.id.content, new FragmentMain())
-                .commit();
+        bAcercaDe = (Button) findViewById(R.id.button_about);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.giro_con_zoom);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.parpadeo);
+//        bAcercaDe.startAnimation(animation);
+        bAcercaDe.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+//                bAcercaDe.startAnimation(animation);
+                launchActivity(AcercaDe.class);
+            }
+        });
+
+        bSalir = (Button) findViewById(R.id.button_exit);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_salir);
+//        bSalir.startAnimation(animation);
+        bSalir.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                launchActivity(Puntuaciones.class);
+//                mostrarPreferencias();
+            }
+        });
+
+        bConfig = (Button) findViewById(R.id.button_config);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.desplazamiento_derecha);
+//        bConfig.startAnimation(animation);
+        bConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchActivity(PreferenciasActivity.class);
+            }
+        });
+
+        bPlay = (Button) findViewById(R.id.button_start);
+//        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.aparecer);
+//        bPlay.startAnimation(animation);
+        bPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchActivity(Juego.class);
+            }
+        });
     }
 
     @Override
@@ -98,6 +152,19 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
     }
 
+    public void mostrarPreferencias(){
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        String s = "música: " + pref.getBoolean("musica",true)
+                +", gráficos: " + pref.getString("graficos","?")
+                +", fragmentos: " + pref.getString("fragmentos","?")
+                +", multijugador: " + pref.getBoolean("multijugador",true)
+                +", jugadores: " + pref.getString("jugadores","?")
+                +", conexion: " +pref.getString("conexion","?");
+        String sensor = "sensores" + pref.getBoolean("sensores", true);
+        Toast.makeText(this, sensor, Toast.LENGTH_SHORT).show();
+    }
+
 
     /**
      *
@@ -116,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        showToast("onResume");
+//        showToast("onResume");
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         prefMusica = "" + pref.getBoolean("musica", true);
 

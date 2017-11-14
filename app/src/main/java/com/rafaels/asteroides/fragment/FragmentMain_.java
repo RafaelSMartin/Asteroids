@@ -28,7 +28,7 @@ import com.rafaels.asteroides.R;
  * Created by Rafael S Martin on 18/10/2017.
  */
 
-public class FragmentMain extends Fragment {
+public class FragmentMain_ extends Fragment {
 
     // Store instance variables
     private String title;

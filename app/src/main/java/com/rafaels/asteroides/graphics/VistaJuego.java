@@ -608,5 +608,9 @@ public class VistaJuego extends View implements SensorEventListener {
         return thread;
     }
 
+
+
+
+
 }
 

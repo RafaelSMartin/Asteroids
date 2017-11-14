@@ -31,27 +31,4 @@
         android:summary="Usar sensores para mover la nave"
         android:defaultValue="true"/>
 
-    <PreferenceCategory
-        android:title="Modo multijugador">
-
-        <CheckBoxPreference
-            android:key="multijugador"
-            android:title="Activar Multijugador"
-            android:defaultValue="true"/>
-
-        <EditTextPreference
-            android:key="jugadores"
-            android:title="Número de Jugadores"
-            android:inputType="number"
-            android:defaultValue="2"/>
-
-        <ListPreference
-            android:key="conexion"
-            android:title="Tipo de conexión"
-            android:entries="@array/tiposConexion"
-            android:entryValues="@array/tiposConexionValores"
-            android:defaultValue="0"/>
-
-    </PreferenceCategory>
-
 </PreferenceScreen>
