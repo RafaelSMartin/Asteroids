@@ -24,6 +24,7 @@ public class Juego extends AppCompatActivity {
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         vistaJuego = (VistaJuego) findViewById(R.id.VistaJuego);
+        vistaJuego.setPadre(this);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.rafaels.asteroides.graphics;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -17,6 +19,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
@@ -88,8 +91,15 @@ public class VistaJuego extends View implements SensorEventListener {
     SoundPool soundPool;
     int idDisparo, idExplosion;
 
-    private Drawable drawableNave, drawableAsteroide, drawableMisil;
+    private Drawable drawableNave;
+//    private Drawable drawableAsteroide;
+    private Drawable drawableAsteroide[] = new Drawable[3];
+    private Drawable drawableMisil;
     private AnimationDrawable animacionMisil;
+
+
+    ////// PUNTUACION ///////
+    private int puntuacion = 0;
 
 
     public VistaJuego(Context context, AttributeSet attrs) {
@@ -132,13 +142,16 @@ public class VistaJuego extends View implements SensorEventListener {
             pathAsteroide.lineTo((float) 0.0, (float) 0.6);
             pathAsteroide.lineTo((float) 0.0, (float) 0.2);
             pathAsteroide.lineTo((float) 0.3, (float) 0.0);
-            ShapeDrawable dAsteroide = new ShapeDrawable(
-                    new PathShape(pathAsteroide, 1, 1));
-            dAsteroide.getPaint().setColor(Color.WHITE);
-            dAsteroide.getPaint().setStyle(Paint.Style.STROKE);
-            dAsteroide.setIntrinsicWidth(150);
-            dAsteroide.setIntrinsicHeight(150);
-            drawableAsteroide = dAsteroide;
+
+            for(int i = 1; i<3; i++){
+                ShapeDrawable dAsteroide = new ShapeDrawable(
+                        new PathShape(pathAsteroide, 1, 1));
+                dAsteroide.getPaint().setColor(Color.WHITE);
+                dAsteroide.getPaint().setStyle(Paint.Style.STROKE);
+                dAsteroide.setIntrinsicWidth(50 - i * 14);
+                dAsteroide.setIntrinsicHeight(50 - i * 14);
+                drawableAsteroide[i] = dAsteroide;
+            }
 
             ShapeDrawable dMisil = new ShapeDrawable(new RectShape());
             dMisil.getPaint().setColor(Color.WHITE);
@@ -152,7 +165,9 @@ public class VistaJuego extends View implements SensorEventListener {
             //Activo aceleracion grafica
             setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-            drawableAsteroide = ContextCompat.getDrawable(context, R.drawable.asteroide1);
+            drawableAsteroide[0] = ContextCompat.getDrawable(context, R.drawable.asteroide1);
+            drawableAsteroide[1] = ContextCompat.getDrawable(context, R.drawable.asteroide2);
+            drawableAsteroide[2] = ContextCompat.getDrawable(context, R.drawable.asteroide3);
 
             drawableNave = ContextCompat.getDrawable(context, R.drawable.nave);
             animacionMisil = (AnimationDrawable) ContextCompat.getDrawable(context, R.drawable.amin_misil);
@@ -160,7 +175,9 @@ public class VistaJuego extends View implements SensorEventListener {
         } else {
             //Activo aceleracion grafica
             setLayerType(View.LAYER_TYPE_HARDWARE, null);
-            drawableAsteroide = ContextCompat.getDrawable(context, R.drawable.ic_asteroide1_vector_drawable);
+            drawableAsteroide[0] = ContextCompat.getDrawable(context, R.drawable.ic_asteroide1_vector_drawable);
+            drawableAsteroide[1] = ContextCompat.getDrawable(context, R.drawable.ic_asteroide1_vector_drawable);
+            drawableAsteroide[2] = ContextCompat.getDrawable(context, R.drawable.ic_asteroide1_vector_drawable);
 
             drawableNave = ContextCompat.getDrawable(context, R.drawable.ic_nave_vector_drawable);
 
@@ -184,7 +201,7 @@ public class VistaJuego extends View implements SensorEventListener {
 
         asteroides = new ArrayList<Grafico>();
         for (int i = 0; i < numAsteroides; i++) {
-            Grafico asteroide = new Grafico(this, drawableAsteroide);
+            Grafico asteroide = new Grafico(this, drawableAsteroide[0]);
             asteroide.setIncY(Math.random() * 4 - 2);
             asteroide.setIncX(Math.random() * 4 - 2);
             asteroide.setAngulo((int) (Math.random() * 360));
@@ -325,10 +342,37 @@ public class VistaJuego extends View implements SensorEventListener {
                     }
             }
         }
+        for(Grafico asteroide : asteroides){
+            if(asteroide.verificaColision(nave)){
+                salir();
+            }
+        }
     }
 
 //    private void destruyeAsteroide(int i, Misil misil) {
     private void destruyeAsteroide(int i) {
+        //Aumentar las puntuaciones al destruir un asteroide
+        puntuacion += 1000;
+
+        int tam;
+        if(asteroides.get(i).getDrawable()!=drawableAsteroide[2]){
+            if(asteroides.get(i).getDrawable()==drawableAsteroide[1]){
+                tam=2;
+            } else {
+                tam=1;
+            }
+            for(int n=0;n<numFragmentos;n++){
+                Grafico asteroide = new Grafico(this,drawableAsteroide[tam]);
+                asteroide.setCenX(asteroides.get(i).getCenX());
+                asteroide.setCenY(asteroides.get(i).getCenY());
+                asteroide.setIncX(Math.random()*7-2-tam);
+                asteroide.setIncY(Math.random()*7-2-tam);
+                asteroide.setAngulo((int)(Math.random()*360));
+                asteroide.setRotacion((int)(Math.random()*8-4));
+                asteroides.add(asteroide);
+            }
+        }
+
         synchronized (asteroides) {
             asteroides.remove(i);
             misilActivo = false;
@@ -339,8 +383,13 @@ public class VistaJuego extends View implements SensorEventListener {
         this.postInvalidate();
         // Desactivamos el misil para que el método onDraw deje de dibujarlo
 //        misil.setMisilActivo(false);
-        if(soundPool !=null)
+        if(soundPool !=null){
             soundPool.play(idExplosion, 1,1,0,0,1);
+        }
+
+        if(asteroides.isEmpty()){
+            salir();
+        }
     }
 
     private void activaMisil() {
@@ -560,11 +609,23 @@ public class VistaJuego extends View implements SensorEventListener {
         return sensorActivo;
     }
 
+    private void salir(){
+        Bundle bundle = new Bundle();
+        bundle.putInt("puntuacion", puntuacion);
+        Intent i = new Intent();
+        i.putExtras(bundle);
+        padre.setResult(Activity.RESULT_OK, i);
+        padre.finish();
+    }
 
 
     /**
      * THREAD del Juego
      */
+   private Activity padre;
+   public void setPadre(Activity padre){
+       this.padre = padre;
+   }
 
     public class ThreadJuego extends Thread {
 

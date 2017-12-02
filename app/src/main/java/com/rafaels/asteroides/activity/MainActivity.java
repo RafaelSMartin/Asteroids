@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private Animation animation;
 
+    //Puntuaciones del juego
+    static final int ACTIV_JUEGO = 0;
+
     @Override
     protected void onSaveInstanceState(Bundle estadoGuardado){
         super.onSaveInstanceState(estadoGuardado);
@@ -118,7 +121,9 @@ public class MainActivity extends AppCompatActivity {
         bPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                launchActivity(Juego.class);
+//                launchActivity(Juego.class);
+                Intent i = new Intent(getApplicationContext(), Juego.class);
+                startActivityForResult(i, ACTIV_JUEGO);
             }
         });
     }
@@ -141,6 +146,18 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ACTIV_JUEGO && resultCode == RESULT_OK && data!=null){
+            int puntuacion = data.getExtras().getInt("puntuacion");
+            String nombre = "Yo";
+            //Mejor leer nombre desde un AlertDialod.Builder o preferencias
+            almacen.guardarPuntuacion(puntuacion, nombre, System.currentTimeMillis());
+            launchActivity(Puntuaciones.class);
+        }
     }
 
     public void launchActivity(Class clase){
