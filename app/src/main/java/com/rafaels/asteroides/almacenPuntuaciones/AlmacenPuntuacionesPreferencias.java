@@ -28,7 +28,11 @@ public class AlmacenPuntuacionesPreferencias implements AlmacenPuntuaciones {
                 Context.MODE_PRIVATE);
         //Creamos un editor para añadirle contenido con putString con una clave llamada puntuacion
         SharedPreferences.Editor editor = preferencias.edit();
-        editor.putString("puntuacion", puntos + "" + nombre);
+        for(int n = 9; n>=1; n--){
+            editor.putString("puntuacion" + n,
+                    preferencias.getString("puntuacion" + (n - 1), ""));
+        }
+        editor.putString("puntuacion0", puntos + " " + nombre);
         //Para hacer que se refleje el contenido añadido (apply o commit->devuelve exito o no)
         editor.apply();
 
@@ -40,11 +44,13 @@ public class AlmacenPuntuacionesPreferencias implements AlmacenPuntuaciones {
         SharedPreferences preferencias = context.getSharedPreferences("puntuaciones",
                 Context.MODE_PRIVATE);
         //Leo un string con clave puntuacion con valor por defecto si algo falla ""
-        String s = preferencias.getString("puntuacion", "");
-        // Si esa puntuacion existe añadimos el resultado al vector y lo devolvemos
-        if(!s.equals("")){
-            result.add(s);
+        for(int n = 0; n <= 9; n++){
+            String s = preferencias.getString("puntuacion" + n, "");
+            if (!s.isEmpty()){
+                result.add(s);
+            }
         }
+
         return result;
     }
 }
