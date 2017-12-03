@@ -3,6 +3,8 @@ package com.rafaels.asteroides.almacenPuntuaciones;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -34,7 +36,7 @@ public class AlmacenPuntuacionesPreferencias implements AlmacenPuntuaciones {
 
     @Override
     public Vector<String> listaPuntuaciones(int cantidad) {
-        Vector<String> result = new Vector<String>();
+        Vector<String> result = new Vector<>();
         SharedPreferences preferencias = context.getSharedPreferences("puntuaciones",
                 Context.MODE_PRIVATE);
         //Leo un string con clave puntuacion con valor por defecto si algo falla ""
