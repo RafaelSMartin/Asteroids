@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuaciones;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesArray;
 import com.rafaels.asteroides.R;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesFicheroExterno;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesFicheroInterno;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesPreferencias;
 
@@ -64,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
 //        almacen= new AlmacenPuntuacionesArray();
 //        almacen = new AlmacenPuntuacionesPreferencias(this);
-        almacen = new AlmacenPuntuacionesFicheroInterno(this);
+//        almacen = new AlmacenPuntuacionesFicheroInterno(this);
+        almacen = new AlmacenPuntuacionesFicheroExterno(this);
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         prefMusica = "" + pref.getBoolean("musica", true);
