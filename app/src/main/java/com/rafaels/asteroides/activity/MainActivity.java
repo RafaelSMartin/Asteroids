@@ -22,9 +22,12 @@ import android.widget.Toast;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuaciones;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesArray;
 import com.rafaels.asteroides.R;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesFicheroExtApl;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesFicheroExterno;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesFicheroInterno;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesPreferencias;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesRecursoAssets;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesRecursoRaw;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -207,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ACTIV_JUEGO && resultCode == RESULT_OK && data!=null){
             int puntuacion = data.getExtras().getInt("puntuacion");
-            String nombre = "Yo";
+            String nombre = "Player";
             //Mejor leer nombre desde un AlertDialod.Builder o preferencias
             almacen.guardarPuntuacion(puntuacion, nombre, System.currentTimeMillis());
             launchActivity(Puntuaciones.class);
@@ -319,6 +322,12 @@ public class MainActivity extends AppCompatActivity {
             almacen = new AlmacenPuntuacionesFicheroInterno(this);
         } else if (prefAlamacen.equals("3")){
             almacen = new AlmacenPuntuacionesFicheroExterno(this);
+        } else if(prefAlamacen.equals("4")){
+            almacen = new AlmacenPuntuacionesRecursoRaw(this);
+        } else if(prefAlamacen.equals("5")){
+            almacen = new AlmacenPuntuacionesRecursoAssets(this);
+        } else if(prefAlamacen.equals("6")){
+            almacen = new AlmacenPuntuacionesFicheroExtApl(this);
         }
         Log.d("almacenamientoOnResume", prefAlamacen);
 
