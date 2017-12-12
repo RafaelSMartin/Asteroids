@@ -1,11 +1,16 @@
 package com.rafaels.asteroides.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public static MediaPlayer mp;
     int pos;
     private SharedPreferences pref;
-    private String prefMusica;
+    private String prefMusica, prefAlamacen;
 
     // Store instance variables
     private String title;
@@ -36,8 +41,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private Animation animation;
 
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1 ;
+
     //Puntuaciones del juego
     static final int ACTIV_JUEGO = 0;
+    static final int PREF_ALMACENAMINETO = 10;
 
     @Override
     protected void onSaveInstanceState(Bundle estadoGuardado){
@@ -63,12 +71,50 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main);
 
-//        almacen= new AlmacenPuntuacionesArray();
-//        almacen = new AlmacenPuntuacionesPreferencias(this);
-//        almacen = new AlmacenPuntuacionesFicheroInterno(this);
-        almacen = new AlmacenPuntuacionesFicheroExterno(this);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+            } else {
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+
+            }
+        }
+
+
+//        if(!getGrantedWriteExternalPermission()){
+//            requestWriteExternalPermission(MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+//        }
+//        else
+//        {
+//            //Aqui lo que quiera hacer
+//
+//        }
+
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+//        almacen= new AlmacenPuntuacionesArray();
+//        prefAlamacen = pref.getString("almacenamiento","?");
+//
+//        if(prefAlamacen.equals("0")){
+//            almacen= new AlmacenPuntuacionesArray();
+//        } else if(prefAlamacen.equals("1")){
+//            almacen = new AlmacenPuntuacionesPreferencias(this);
+//        } else if (prefAlamacen.equals("2")){
+//            almacen = new AlmacenPuntuacionesFicheroInterno(this);
+//        } else if (prefAlamacen.equals("3")){
+//            almacen = new AlmacenPuntuacionesFicheroExterno(this);
+//        }
+//        Log.d("almacenamientoOnCreate", prefAlamacen);
+
+
         prefMusica = "" + pref.getBoolean("musica", true);
         mp = MediaPlayer.create(this, R.raw.juego);
 
@@ -118,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 launchActivity(PreferenciasActivity.class);
+//                Intent i = new Intent(getApplicationContext(), PreferenciasActivity.class);
+//                startActivityForResult(i, PREF_ALMACENAMINETO);
             }
         });
 
@@ -165,6 +213,40 @@ public class MainActivity extends AppCompatActivity {
             launchActivity(Puntuaciones.class);
         }
     }
+
+    public boolean getGrantedWriteExternalPermission()
+    {
+        int permission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return permission == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestWriteExternalPermission(int requestCode)
+    {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
+        }
+        else
+        {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+
+                }
+                return;
+            }
+        }
+    }
+
 
     public void launchActivity(Class clase){
         Intent i = new Intent(this, clase);
@@ -227,6 +309,19 @@ public class MainActivity extends AppCompatActivity {
                 mp = null;
             }
         }
+        prefAlamacen = pref.getString("almacenamiento","0");
+
+        if(prefAlamacen.equals("0")){
+            almacen= new AlmacenPuntuacionesArray();
+        } else if(prefAlamacen.equals("1")){
+            almacen = new AlmacenPuntuacionesPreferencias(this);
+        } else if (prefAlamacen.equals("2")){
+            almacen = new AlmacenPuntuacionesFicheroInterno(this);
+        } else if (prefAlamacen.equals("3")){
+            almacen = new AlmacenPuntuacionesFicheroExterno(this);
+        }
+        Log.d("almacenamientoOnResume", prefAlamacen);
+
     }
 
     @Override

@@ -31,4 +31,12 @@
         android:summary="Usar sensores para mover la nave"
         android:defaultValue="true"/>
 
+    <ListPreference
+        android:key="almacenamiento"
+        android:title="Tipo de almacenamiento"
+        android:summary="Se escoge la forma para guardar puntuaciones"
+        android:entries="@array/tipoAlmacenamiento"
+        android:entryValues="@array/tiposAlmacenamientoValores"
+        android:defaultValue="0"/>
+
 </PreferenceScreen>

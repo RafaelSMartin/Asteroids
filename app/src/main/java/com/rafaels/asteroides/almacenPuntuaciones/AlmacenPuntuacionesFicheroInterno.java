@@ -25,7 +25,7 @@ public class AlmacenPuntuacionesFicheroInterno implements AlmacenPuntuaciones {
     @Override
     public void guardarPuntuacion(int puntos, String nombre, long fecha) {
         try {
-            FileOutputStream file = context.openFileOutput(FICHERO, Context.MODE_PRIVATE);
+            FileOutputStream file = context.openFileOutput(FICHERO, Context.MODE_APPEND);
             String texto = puntos + "" + nombre + "\n";
             file.write(texto.getBytes());
             file.close();

@@ -28,4 +28,20 @@
         <item>2</item>
     </string-array>
 
+    <string-array
+        name="tipoAlmacenamiento">
+        <item>Array</item>
+        <item>Preferencias</item>
+        <item>FicheroInterno</item>
+        <item>FicheroExterno</item>
+    </string-array>
+    <string-array
+        name="tiposAlmacenamientoValores">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+
 </resources>
