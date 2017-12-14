@@ -38,6 +38,7 @@
         <item>FicheroAssets</item>
         <item>FicheroExternoEspecifico</item>
         <item>XML_SAX</item>
+        <item>XML_DOM</item>
     </string-array>
     <string-array
         name="tiposAlmacenamientoValores">
@@ -49,6 +50,7 @@
         <item>5</item>
         <item>6</item>
         <item>7</item>
+        <item>8</item>
     </string-array>
 
 

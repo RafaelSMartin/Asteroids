@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://D:\AndroidBitbucket\Asteroids\Asteroides.iml" filepath="D:\AndroidBitbucket\Asteroids\Asteroides.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Asteroids.iml" filepath="$PROJECT_DIR$/.idea/Asteroids.iml" />
+      <module fileurl="file://C:\AndroidStudioProjects\Asteroids\.idea\Asteroids.iml" filepath="C:\AndroidStudioProjects\Asteroids\.idea\Asteroids.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\AndroidStudioProjects\Asteroids\app\app.iml" filepath="C:\AndroidStudioProjects\Asteroids\app\app.iml" />
     </modules>
   </component>
 </project>
