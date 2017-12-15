@@ -16,7 +16,7 @@ public class AlmacenPuntuacionesGSon implements AlmacenPuntuaciones {
 
     private String string; //Almacena puntuaciones en formato JSON
     private Gson gson = new Gson();
-    private Type type = new TypeToken<List<Puntuacion>>() {}.getType();
+    private Type type = new TypeToken<Clase>() {}.getType();
 
     public AlmacenPuntuacionesGSon() {
         guardarPuntuacion(45000,"Mi nombre", System.currentTimeMillis());
@@ -26,30 +26,38 @@ public class AlmacenPuntuacionesGSon implements AlmacenPuntuaciones {
     @Override
     public void guardarPuntuacion(int puntos, String nombre, long fecha) {
         //string = leerString();
-        ArrayList<Puntuacion> puntuaciones;
+        Clase objeto;
         if (string == null) {
-            puntuaciones = new ArrayList<>();
+            objeto = new Clase();
         } else {
-        puntuaciones = gson.fromJson(string, type);
+            objeto = gson.fromJson(string, type);
         }
-        puntuaciones.add(new Puntuacion(puntos, nombre, fecha));
-        string = gson.toJson(puntuaciones, type);
+        objeto.puntuaciones.add(new Puntuacion(puntos, nombre, fecha));
+        string = gson.toJson(objeto, type);
         //guardarString(string);
         }
 
         @Override
         public Vector<String> listaPuntuaciones(int cantidad) {
             //string = leerString();
-            ArrayList<Puntuacion> puntuaciones;
+            Clase objeto;
             if (string == null) {
-                puntuaciones = new ArrayList<>();
+                objeto = new Clase();
             } else {
-                puntuaciones = gson.fromJson(string, type);
+                objeto = gson.fromJson(string, type);
             }
             Vector<String> salida = new Vector<>();
-            for (Puntuacion puntuacion : puntuaciones) {
-                salida.add(puntuacion.getPuntos() + " " + puntuacion.getNombre());
+            for (Puntuacion puntuacion : objeto.puntuaciones) {
+                salida.add(puntuacion.getPuntos()+" "+puntuacion.getNombre());
             }
             return salida;
         }
+
+    public class Clase {
+        private ArrayList<Puntuacion> puntuaciones = new ArrayList<>();
+        private boolean guardado;
+    }
+
+
+
 }
