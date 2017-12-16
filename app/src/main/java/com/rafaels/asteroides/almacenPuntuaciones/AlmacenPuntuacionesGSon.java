@@ -19,8 +19,8 @@ public class AlmacenPuntuacionesGSon implements AlmacenPuntuaciones {
     private Type type = new TypeToken<Clase>() {}.getType();
 
     public AlmacenPuntuacionesGSon() {
-        guardarPuntuacion(45000,"Mi nombre", System.currentTimeMillis());
-        guardarPuntuacion(31000,"Otro nombre", System.currentTimeMillis());
+        guardarPuntuacion(45000,"Mi nombreGSON", System.currentTimeMillis());
+        guardarPuntuacion(31000,"Otro nombreGSON", System.currentTimeMillis());
     }
 
     @Override

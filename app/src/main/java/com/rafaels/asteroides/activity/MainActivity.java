@@ -26,9 +26,11 @@ import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesFicheroExtA
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesFicheroExterno;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesFicheroInterno;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesGSon;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesJSon;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesPreferencias;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesRecursoAssets;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesRecursoRaw;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSQLite;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesXML_DOM;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesXML_SAX;
 
@@ -337,6 +339,10 @@ public class MainActivity extends AppCompatActivity {
             almacen = new AlmacenPuntuacionesXML_DOM(this);
         } else if (prefAlamacen.equals("9")){
             almacen = new AlmacenPuntuacionesGSon();
+        } else if(prefAlamacen.equals("10")){
+            almacen = new AlmacenPuntuacionesJSon();
+        } else if (prefAlamacen.equals("11")){
+            almacen = new AlmacenPuntuacionesSQLite(this);
         }
         Log.d("almacenamientoOnResume", prefAlamacen);
 
