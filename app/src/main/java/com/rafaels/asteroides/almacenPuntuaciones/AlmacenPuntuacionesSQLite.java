@@ -47,18 +47,23 @@ public class AlmacenPuntuacionesSQLite extends SQLiteOpenHelper implements Almac
         SQLiteDatabase db = getReadableDatabase();
 
         //Consulta rawQuery
-//        Cursor cursor = db.rawQuery("SELECT puntos, nombre FROM " + "puntuaciones ORDER BY puntos DESC LIMIT " +cantidad, null);
+//        Cursor cursor = db.rawQuery(
+                            // "SELECT puntos, nombre
+                            // FROM " + "puntuaciones
+                            // ORDER BY puntos
+                            // DESC LIMIT " +cantidad,
+                            // null);
         //Consulta query
         String[] CAMPOS = {"puntos", "nombre"};
         Cursor cursor=db.query(
-                "puntuaciones",
-                CAMPOS,
-                null,
-                null,
-                null,
-                null,
-                "puntos DESC",
-                Integer.toString(cantidad));
+                "puntuaciones", //tabla a consultar (FROM)
+                CAMPOS, //columnas a devolver (SELECT)
+                null, //consulta (WHERE)
+                null, //reemplaza "?" de seleccion
+                null, //agrupado por (GROUPBY)
+                null, //condicion de f. aritmetica
+                "puntos DESC", //ordenado por
+                Integer.toString(cantidad)); //cantidad max. de registros
 
         while (cursor.moveToNext()){
             result.add(cursor.getInt(0)+" " +cursor.getString(1));
