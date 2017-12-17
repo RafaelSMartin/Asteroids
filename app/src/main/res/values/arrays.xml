@@ -42,6 +42,7 @@
         <item>GSON</item>
         <item>JSON</item>
         <item>SQLite</item>
+        <item>SQLiteRelacional</item>
     </string-array>
     <string-array
         name="tiposAlmacenamientoValores">
@@ -57,6 +58,7 @@
         <item>9</item>
         <item>10</item>
         <item>11</item>
+        <item>12</item>
     </string-array>
 
 
