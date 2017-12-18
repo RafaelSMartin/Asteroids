@@ -44,6 +44,7 @@
         <item>SQLite</item>
         <item>SQLiteRelacional</item>
         <item>ContentProvider</item>
+        <item>Socket</item>
     </string-array>
     <string-array
         name="tiposAlmacenamientoValores">
@@ -61,6 +62,7 @@
         <item>11</item>
         <item>12</item>
         <item>13</item>
+        <item>14</item>
     </string-array>
 
 

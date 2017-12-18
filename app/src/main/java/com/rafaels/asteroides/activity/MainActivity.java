@@ -33,6 +33,7 @@ import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesRecursoAsse
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesRecursoRaw;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSQLite;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSQLiteRel;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSocket;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesXML_DOM;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesXML_SAX;
 
@@ -217,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ACTIV_JUEGO && resultCode == RESULT_OK && data!=null){
             int puntuacion = data.getExtras().getInt("puntuacion");
-            String nombre = "Player";
+            String nombre = "Rafael Martin";
             //Mejor leer nombre desde un AlertDialod.Builder o preferencias
             almacen.guardarPuntuacion(puntuacion, nombre, System.currentTimeMillis());
             launchActivity(Puntuaciones.class);
@@ -349,6 +350,8 @@ public class MainActivity extends AppCompatActivity {
             almacen = new AlmacenPuntuacionesSQLiteRel(this);
         } else if (prefAlamacen.equals("13")){
             almacen = new AlmacenPuntuacionesProvider(this);
+        } else if (prefAlamacen.equals("14")){
+            almacen = new AlmacenPuntuacionesSocket();
         }
         Log.d("almacenamientoOnResume", prefAlamacen);
 
