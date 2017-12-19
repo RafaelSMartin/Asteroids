@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.rafaels.asteroides.R;
+import com.rafaels.asteroides.activity.MainActivity;
 
 import java.util.Vector;
 
@@ -41,13 +43,21 @@ public class MiAdaptador extends RecyclerView.Adapter<MiAdaptador.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int i) {
         holder.titulo.setText(lista.get(i));
         switch (Math.round((float) Math.random()*3)){
-            case 0: holder.icon.setImageResource(android.R.drawable.alert_dark_frame);
+            case 0:
+//                holder.icon.setImageResource(android.R.drawable.alert_dark_frame);
+                //Carga de Imagenes con Volley
+                MainActivity.lectorImagenes.get("http://mmoviles.upv.es/img/moviles.png",
+                        ImageLoader.getImageListener(holder.icon, R.drawable.asteroide1,
+                                R.drawable.asteroide3));
                 break;
-            case 1: holder.icon.setImageResource(android.R.drawable.star_on);
+            case 1:
+                holder.icon.setImageResource(android.R.drawable.star_on);
                 break;
-            case 2 :holder.icon.setImageResource(android.R.drawable.ic_delete);
+            case 2 :
+                holder.icon.setImageResource(android.R.drawable.ic_delete);
                 break;
-            default: holder.icon.setImageResource(R.mipmap.ic_launcher);
+            default:
+                holder.icon.setImageResource(R.mipmap.ic_launcher);
                 break;
         }
     }

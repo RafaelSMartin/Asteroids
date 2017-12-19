@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -11,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.LruCache;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuaciones;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesArray;
 import com.rafaels.asteroides.R;
@@ -57,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
     //Puntuaciones del juego
     static final int ACTIV_JUEGO = 0;
     static final int PREF_ALMACENAMINETO = 10;
+
+    //Volley
+    public static RequestQueue colaPeticiones;
+    public static ImageLoader lectorImagenes;
 
     @Override
     protected void onSaveInstanceState(Bundle estadoGuardado){
@@ -108,6 +118,24 @@ public class MainActivity extends AppCompatActivity {
 //
 //        }
 
+        colaPeticiones = Volley.newRequestQueue(this);
+        //Asociado a un request
+        lectorImagenes = new ImageLoader(colaPeticiones,
+                //Para gestionar la cache
+                new ImageLoader.ImageCache() {
+                    //Almacena memoria a pares con maximo de elementos a 10
+                    private final LruCache<String, Bitmap> cache = new LruCache<String, Bitmap>(10);
+                    //Recupera elementos en cache
+                    @Override
+                    public Bitmap getBitmap(String url) {
+                        return cache.get(url);
+                    }
+                    //Almacena elementos en cache
+                    @Override
+                    public void putBitmap(String url, Bitmap bitmap) {
+                        cache.put(url, bitmap);
+                    }
+                });
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
