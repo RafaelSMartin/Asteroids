@@ -41,6 +41,8 @@ import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesRecursoRaw;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSQLite;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSQLiteRel;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSW_PHP;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSW_PHP_AsyncTask;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSW_PHP_MyHosting;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSocket;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesXML_DOM;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesXML_SAX;
@@ -386,6 +388,10 @@ public class MainActivity extends AppCompatActivity {
             almacen = new AlmacenPuntuacionesSocket();
         } else if (prefAlamacen.equals("15")){
             almacen = new AlmacenPuntuacionesSW_PHP();
+        } else if(prefAlamacen.equals("16")){
+            almacen = new AlmacenPuntuacionesSW_PHP_AsyncTask(this);
+        } else if(prefAlamacen.equals("17")){
+            almacen = new AlmacenPuntuacionesSW_PHP_MyHosting();
         }
         Log.d("almacenamientoOnResume", prefAlamacen);
 

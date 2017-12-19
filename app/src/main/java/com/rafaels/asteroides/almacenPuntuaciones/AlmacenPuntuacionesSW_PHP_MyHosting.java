@@ -7,22 +7,20 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 /**
  * Created by Rafael S Martin on 19/12/2017.
  */
 
-public class AlmacenPuntuacionesSW_PHP implements AlmacenPuntuaciones {
+public class AlmacenPuntuacionesSW_PHP_MyHosting implements AlmacenPuntuaciones {
 
     HttpURLConnection conexion;
 
     public Vector<String> listaPuntuaciones(int cantidad) {
         Vector<String> result = new Vector<String>();
         try {
-            URL url=new URL("http://158.42.146.127/puntuaciones/lista.php" + "?max=20");
+            URL url=new URL("http://rafaelsmartindev.000webhostapp.com/puntuaciones/lista.php" + "?max=20");
             conexion = (HttpURLConnection) url.openConnection();
             if (conexion.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conexion.getInputStream()));
@@ -45,7 +43,7 @@ public class AlmacenPuntuacionesSW_PHP implements AlmacenPuntuaciones {
 
     public void guardarPuntuacion(int puntos, String nombre, long fecha) {
         try {
-            URL url=new URL("http://158.42.146.127/puntuaciones/nueva.php?" +
+            URL url=new URL("http://rafaelsmartindev.000webhostapp.com/puntuaciones/nueva.php?" +
                     "puntos="+ puntos + "&nombre="+
                     URLEncoder.encode(nombre, "UTF-8") +
                     "&fecha=" + fecha);

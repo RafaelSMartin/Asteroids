@@ -46,6 +46,8 @@
         <item>ContentProvider</item>
         <item>Socket</item>
         <item>ServerWebPHP</item>
+        <item>ServerWebPhpAsyntask</item>
+        <item>Mi Hosting</item>
     </string-array>
     <string-array
         name="tiposAlmacenamientoValores">
@@ -65,6 +67,8 @@
         <item>13</item>
         <item>14</item>
         <item>15</item>
+        <item>16</item>
+        <item>17</item>
     </string-array>
 
 
