@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -21,7 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
@@ -39,6 +40,7 @@ import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesRecursoAsse
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesRecursoRaw;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSQLite;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSQLiteRel;
+import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSW_PHP;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesSocket;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesXML_DOM;
 import com.rafaels.asteroides.almacenPuntuaciones.AlmacenPuntuacionesXML_SAX;
@@ -107,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder(). permitNetwork().build());
 
 
 //        if(!getGrantedWriteExternalPermission()){
@@ -380,6 +384,8 @@ public class MainActivity extends AppCompatActivity {
             almacen = new AlmacenPuntuacionesProvider(this);
         } else if (prefAlamacen.equals("14")){
             almacen = new AlmacenPuntuacionesSocket();
+        } else if (prefAlamacen.equals("15")){
+            almacen = new AlmacenPuntuacionesSW_PHP();
         }
         Log.d("almacenamientoOnResume", prefAlamacen);
 

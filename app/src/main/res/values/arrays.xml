@@ -45,6 +45,7 @@
         <item>SQLiteRelacional</item>
         <item>ContentProvider</item>
         <item>Socket</item>
+        <item>ServerWebPHP</item>
     </string-array>
     <string-array
         name="tiposAlmacenamientoValores">
@@ -63,6 +64,7 @@
         <item>12</item>
         <item>13</item>
         <item>14</item>
+        <item>15</item>
     </string-array>
 
 
