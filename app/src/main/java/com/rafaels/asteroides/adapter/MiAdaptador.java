@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.rafaels.asteroides.R;
 import com.rafaels.asteroides.activity.MainActivity;
 
@@ -46,18 +47,26 @@ public class MiAdaptador extends RecyclerView.Adapter<MiAdaptador.ViewHolder> {
             case 0:
 //                holder.icon.setImageResource(android.R.drawable.alert_dark_frame);
                 //Carga de Imagenes con Volley
-                MainActivity.lectorImagenes.get("http://mmoviles.upv.es/img/moviles.png",
-                        ImageLoader.getImageListener(holder.icon, R.drawable.asteroide1,
-                                R.drawable.asteroide3));
+//                MainActivity.lectorImagenes.get("http://mmoviles.upv.es/img/moviles.png",
+//                        ImageLoader.getImageListener(holder.icon, R.drawable.asteroide1,
+//                                R.drawable.asteroide3));
+                holder.icon.setImageUrl("http://mmoviles.upv.es/img/moviles.png",
+                        MainActivity.lectorImagenes);
                 break;
             case 1:
-                holder.icon.setImageResource(android.R.drawable.star_on);
+//                holder.icon.setImageResource(android.R.drawable.star_on);
+                holder.icon.setImageUrl("http://mmoviles.upv.es/img/moviles.png",
+                        MainActivity.lectorImagenes);
                 break;
             case 2 :
-                holder.icon.setImageResource(android.R.drawable.ic_delete);
+//                holder.icon.setImageResource(android.R.drawable.ic_delete);
+                holder.icon.setImageUrl("http://mmoviles.upv.es/img/moviles.png",
+                        MainActivity.lectorImagenes);
                 break;
             default:
-                holder.icon.setImageResource(R.mipmap.ic_launcher);
+//                holder.icon.setImageResource(R.mipmap.ic_launcher);
+                holder.icon.setImageUrl("http://mmoviles.upv.es/img/moviles.png",
+                        MainActivity.lectorImagenes);
                 break;
         }
     }
@@ -68,13 +77,15 @@ public class MiAdaptador extends RecyclerView.Adapter<MiAdaptador.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         public TextView titulo, subtitutlo;
-        public ImageView icon;
+        public NetworkImageView icon;
+
         ViewHolder(View itemView) {
             super(itemView);
             titulo = (TextView)itemView.findViewById(R.id.titulo);
             subtitutlo = (TextView)itemView.findViewById(R.id.subtitulo);
-            icon = (ImageView)itemView.findViewById(R.id.icono);
+            icon = (NetworkImageView)itemView.findViewById(R.id.icono);
         }
     }
 }
